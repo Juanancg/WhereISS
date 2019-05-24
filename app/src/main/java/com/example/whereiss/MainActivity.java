@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.whereiss.ApiRest.ISSLocService;
@@ -19,6 +20,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    ISSLocService service;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,11 +33,15 @@ public class MainActivity extends AppCompatActivity {
                 .baseUrl("http://api.open-notify.org/")
                 .addConverterFactory(GsonConverterFactory.create()) // Si no añadimos esto, devuelve un JSON de textos
                 .build();
-        ISSLocService service = retrofit.create(ISSLocService.class);
+        service = retrofit.create(ISSLocService.class);
         realizarUpdate(service);
 
     }
 
+
+    public void onClickedUpdate(View v){
+        realizarUpdate(service);
+    }
 
     /**
      * Recupera un recurso y lo muestra en el TextView tvContenido
@@ -53,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 // Poner en los TextView la respuesta recibida
                 ((TextView)findViewById(R.id.longitude)).setText(respuesta.getIssPosition().getLongitude());
                 ((TextView)findViewById(R.id.Latitude)).setText(respuesta.getIssPosition().getLatitude());
-                ((TextView)findViewById(R.id.lastUpdate)).setText(respuesta.getTimestamp().toString());
+                ((TextView)findViewById(R.id.lastUpdate)).setText(respuesta.getTimestampFormatted());
 
 
 

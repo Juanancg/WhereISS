@@ -1,7 +1,11 @@
 package com.example.whereiss.ApiRest;
 
+import android.text.format.DateFormat;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.Calendar;
 
 public class ISSLocationResponse {
 
@@ -32,7 +36,17 @@ public class ISSLocationResponse {
     }
 
     public Integer getTimestamp() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(timestamp);
+        String date = DateFormat.format("dd-MM-yyyy hh:mm:ss", cal).toString();
         return timestamp;
+    }
+
+    public String getTimestampFormatted() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(timestamp * 1000L);
+        String date = DateFormat.format("kk:mm:ss  dd-MM-yyyy", cal).toString(); //   hh:mm:ss
+        return date;
     }
 
     public void setTimestamp(Integer timestamp) {
